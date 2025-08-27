@@ -250,7 +250,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     // 在这里修改想追踪的任何公开项目
-    fetchRepoStats('vuejs/vue');
+    fetchRepoStats('vuejs/core');
     // --- 新增功能7: 滚动触发动画 ---
     const animatedElements = document.querySelectorAll('.animatable');
     if ('IntersectionObserver' in window) {
