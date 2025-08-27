@@ -1,51 +1,50 @@
-/* style.css - 2.0版本 */
+/* style.css - 3.0 Refactored Version */
+
+/* ===== 1. CSS Variables (全局变量定义) ===== */
+:root {
+    --bg-blur: 20px;
+    --widget-bg: rgba(255, 255, 255, 0.15);
+    --widget-border-color: rgba(255, 255, 255, 0.2);
+    --widget-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    --widget-radius: 16px;
+    --text-color: #fff;
+    --text-color-muted: rgba(255, 255, 255, 0.8);
+    --interactive-bg: rgba(0,0,0,0.2);
+    --interactive-border-color: rgba(255,255,255,0.3);
+}
+
+/* ===== 2. Global & Reset ===== */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    color: #fff;
+    color: var(--text-color);
     overflow-y: auto;
     text-align: center;
 }
 
+/* ===== 3. Background & Overlay ===== */
 .background-fixed {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
     /* background-image: url('https://api.btstu.cn/sjbz/api.php?lx=dongman&format=images'); */
     background-image: url('https://api.btstu.cn/sjbz/api.php?lx=fengjing&format=images');
-    background-size: cover;
-    background-position: center;
-    z-index: -2;
+    background-size: cover; background-position: center; z-index: -2;
 }
 .background-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.4);
-    z-index: -1;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4); z-index: -1;
 }
 
+/* ===== 4. Header (Time & Weather) ===== */
 .top-container {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    right: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    z-index: 10;
+    position: absolute; top: 20px; left: 20px; right: 20px;
+    display: flex; justify-content: space-between; align-items: flex-start; z-index: 10;
 }
 .header-widget {
     background: rgba(0, 0, 0, 0.25);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 10px 15px;
-    border-radius: 10px;
+    padding: 10px 15px; border-radius: 10px;
     text-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
 #time-container { text-align: left; }
@@ -56,156 +55,113 @@ body {
 #weather-container .temp { font-size: 1.8rem; font-weight: bold; }
 #weather-container .city { margin-top: 5px; font-weight: 300; }
 
+/* ===== 5. Main Content (Search & Quick Links) ===== */
 .main-content {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding-bottom: 60px;
-    position: relative;
+    height: 100vh; display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    padding-bottom: 60px; position: relative;
 }
-.search-container { max-width: 600px; width: 90%; display: flex; background-color: rgba(255, 255, 255, 0.15); border-radius: 50px; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); padding: 5px; margin-bottom: 2rem; transition: background-color 0.3s; }
+.search-container {
+    max-width: 600px; width: 90%; display: flex;
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 50px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 5px; margin-bottom: 2rem; transition: background-color 0.3s;
+}
 .search-container:hover, .search-container:focus-within { background-color: rgba(255, 255, 255, 0.25); }
 .engine-selector { padding: 5px 10px; cursor: pointer; }
 .engine-selector img { width: 24px; height: 24px; vertical-align: middle; }
-#search-input { flex-grow: 1; border: none; background: transparent; outline: none; color: #fff; font-size: 1.1rem; padding: 10px; }
+#search-input { flex-grow: 1; border: none; background: transparent; outline: none; color: var(--text-color); font-size: 1.1rem; padding: 10px; }
 #search-input::placeholder { color: rgba(255, 255, 255, 0.7); }
-#search-button { border: none; background: transparent; color: #fff; font-size: 1.2rem; cursor: pointer; padding: 0 20px; }
-.quick-links a { color: #fff; text-decoration: none; margin: 0 15px; font-size: 1rem; transition: transform 0.2s; display: inline-block; text-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+#search-button { border: none; background: transparent; color: var(--text-color); font-size: 1.2rem; cursor: pointer; padding: 0 20px; }
+.quick-links a { color: var(--text-color); text-decoration: none; margin: 0 15px; font-size: 1rem; transition: transform 0.2s; display: inline-block; text-shadow: 0 1px 3px rgba(0,0,0,0.3); }
 .quick-links a:hover { transform: scale(1.1); }
-
 .scroll-down-indicator {
-    position: absolute;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 1.5rem;
-    color: rgba(255, 255, 255, 0.7);
+    position: absolute; bottom: 30px; left: 50%;
+    transform: translateX(-50%); font-size: 1.5rem; color: rgba(255, 255, 255, 0.7);
     animation: bounce 2s infinite;
 }
 @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); } 40% { transform: translate(-50%, -15px); } 60% { transform: translate(-50%, -5px); } }
 
+/* ===== 6. Widgets Section & General Widget Style ===== */
 .widgets-section {
-    padding: 10vh 20px;
-    /* 改为Grid布局 */
-    display: grid;
-    /* 自动适配列数，每列最小350px，最大1fr */
+    padding: 10vh 20px; display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    align-items: flex-start; /* 组件顶部对齐 */
-    gap: 30px; /* 组件之间的间距 */
-    
-    /* 限制整体最大宽度，让布局更美观 */
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto; /* 居中 */
-    position: relative;
-    z-index: 5;
+    align-items: flex-start; gap: 30px;
+    width: 100%; max-width: 1200px; margin: 0 auto;
+    position: relative; z-index: 5;
 }
 .widget {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: #fff;
-    border-radius: 16px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-    width: 100%;
-    max-width: 550px;
-    text-align: left;
-    padding: 30px;
+    background: var(--widget-bg);
+    backdrop-filter: blur(var(--bg-blur)); -webkit-backdrop-filter: blur(var(--bg-blur));
+    border: 1px solid var(--widget-border-color);
+    border-radius: var(--widget-radius);
+    box-shadow: var(--widget-shadow);
+    width: 100%; text-align: left; padding: 30px;
 }
-#todo-widget h2 { text-align: center; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,0.3); }
-#todo-widget #todo-input { background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 12px; border-radius: 8px; font-size: 1rem; width: 100%; }
+.widget h2 {
+    text-align: center; margin-bottom: 25px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+/* To-Do Widget */
+#todo-widget #todo-input { background: var(--interactive-bg); border: 1px solid var(--interactive-border-color); color: var(--text-color); padding: 12px; border-radius: 8px; font-size: 1rem; width: 100%; }
 #todo-widget #todo-input::placeholder { color: rgba(255,255,255,0.6); }
 #todo-widget ul { list-style: none; padding: 0; margin-top: 15px; }
-#todo-widget li { display: flex; align-items: center; padding: 12px 5px; border-bottom: 1px solid rgba(255,255,255,0.2); font-size: 1.1rem; transition: background-color 0.2s; }
+#todo-widget li { display: flex; align-items: center; padding: 12px 5px; border-bottom: 1px solid var(--widget-border-color); font-size: 1.1rem; transition: background-color 0.2s; }
 #todo-widget li.completed span { text-decoration: line-through; color: rgba(255,255,255,0.5); }
 #todo-widget li span { flex-grow: 1; cursor: pointer; }
 #todo-widget li .delete-btn { background: none; border: none; color: rgba(255,255,255,0.5); cursor: pointer; font-size: 1.2rem; visibility: hidden; opacity: 0; transition: opacity 0.2s, color 0.2s; }
 #todo-widget li:hover .delete-btn { visibility: visible; opacity: 1; }
 #todo-widget li:hover .delete-btn:hover { color: #ff8a8a; }
 
+/* Notes Widget */
+#notes-widget #notes-textarea { width: 100%; height: 240px; background: var(--interactive-bg); border: 1px solid var(--interactive-border-color); color: var(--text-color); padding: 15px; border-radius: 8px; font-size: 1rem; font-family: inherit; resize: vertical; }
+
+/* Quote Widget */
+#quote-widget { font-family: 'Georgia', 'serif'; font-style: italic; display: flex; flex-direction: column; justify-content: center; min-height: 240px; }
+#quote-widget #quote-content { font-size: 1.4rem; line-height: 1.6; margin-bottom: 20px; }
+#quote-widget #quote-author { font-size: 1rem; text-align: right; font-style: normal; font-weight: bold; color: var(--text-color-muted); }
+#quote-widget #quote-author::before { content: "— "; }
+
+/* Ticker Widget */
+#ticker-widget { padding: 0; background: rgba(0,0,0,0.3); overflow: hidden; height: 100%; min-height: 60px; display: flex; align-items: center;}
+.ticker-wrap { width: 100%; }
+.ticker-content { display: inline-block; white-space: nowrap; animation: ticker 40s linear infinite; }
+.ticker-content:hover { animation-play-state: paused; }
+.ticker-content a { color: var(--text-color); text-decoration: none; margin: 0 25px; font-size: 1.1rem; }
+.ticker-content a:hover { text-decoration: underline; }
+.ticker-content span { margin: 0 25px; }
+@keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+/* GitHub Widget (Multi-project version) */
+#github-list-container .repo-item { display: flex; flex-direction: column; padding: 15px 0; border-bottom: 1px solid var(--widget-border-color); }
+#github-list-container .repo-item:last-child { border-bottom: none; }
+.repo-item .repo-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.repo-item .repo-name { font-size: 1.2rem; font-weight: bold; }
+.repo-item .repo-name a { color: var(--text-color); text-decoration: none; }
+.repo-item .repo-name a:hover { text-decoration: underline; }
+.repo-item .repo-desc { font-size: 0.9rem; color: var(--text-color-muted); margin-bottom: 15px; }
+.repo-item .repo-stats { display: flex; gap: 20px; }
+.repo-item .stat { display: flex; align-items: center; font-size: 0.9rem; }
+.repo-item .stat i { margin-right: 5px; color: rgba(255,255,255,0.7); }
+/* 注意：这里已经删除了之前单项目版本的冗余CSS */
+
+/* ===== 7. Animations ===== */
 .animatable {
-    transform: translateY(30px);
-    opacity: 0;
+    transform: translateY(30px); opacity: 0;
     transition: transform 0.8s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 0.8s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
-.animatable.is-visible {
-    transform: translateY(0);
-    opacity: 1;
-}
+.animatable.is-visible { transform: translateY(0); opacity: 1; }
 
-.toolbox-button { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; background-color: rgba(30, 30, 30, 0.5); backdrop-filter: blur(10px); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; cursor: pointer; border: 1px solid rgba(255, 255, 255, 0.2); transition: all 0.3s; z-index: 100; }
+/* ===== 8. Drawer & Toolbox ===== */
+.toolbox-button { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; background-color: rgba(30, 30, 30, 0.5); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; cursor: pointer; border: 1px solid rgba(255, 255, 255, 0.2); transition: all 0.3s; z-index: 100; }
 .toolbox-button:hover { transform: rotate(45deg); }
-.drawer-panel { position: fixed; top: 0; right: 0; width: 320px; height: 100%; background-color: rgba(30, 30, 30, 0.85); backdrop-filter: blur(15px); border-left: 1px solid rgba(255, 255, 255, 0.2); padding: 20px; transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); overflow-y: auto; z-index: 200; }
+.drawer-panel { position: fixed; top: 0; right: 0; width: 320px; height: 100%; background-color: rgba(30, 30, 30, 0.85); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-left: 1px solid rgba(255, 255, 255, 0.2); padding: 20px; transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); overflow-y: auto; z-index: 200; }
 .drawer-panel.open { transform: translateX(0); }
 .drawer-panel h2 { margin-bottom: 20px; text-align: left; font-weight: 500; }
 .drawer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
-.site-item { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px; border-radius: 10px; text-decoration: none; color: #fff; background-color: rgba(255, 255, 255, 0.1); transition: background-color 0.3s; }
+.site-item { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px; border-radius: 10px; text-decoration: none; color: var(--text-color); background-color: rgba(255, 255, 255, 0.1); transition: background-color 0.3s; }
 .site-item:hover { background-color: rgba(255, 255, 255, 0.2); }
 .site-item img { width: 32px; height: 32px; margin-bottom: 8px; }
 .site-item span { font-size: 0.85rem; white-space: nowrap; }
-
-/* ===== 新增：快捷便签样式 ===== */
-#notes-widget h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-#notes-widget #notes-textarea {
-    width: 100%;
-    height: 200px; /* 您可以按需调整高度 */
-    background: rgba(0,0,0,0.2);
-    border: 1px solid rgba(255,255,255,0.3);
-    color: #fff;
-    padding: 15px;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-family: inherit;
-    resize: vertical; /* 允许用户垂直调整大小 */
-}
-
-/* ===== 新增：每日名言样式 ===== */
-#quote-widget {
-    font-family: 'Georgia', 'serif';
-    font-style: italic;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-height: 200px; /* 让它和其他组件高度感接近 */
-}
-#quote-widget #quote-content {
-    font-size: 1.4rem;
-    line-height: 1.6;
-    margin-bottom: 20px;
-}
-#quote-widget #quote-author {
-    font-size: 1rem;
-    text-align: right;
-    font-style: normal;
-    font-weight: bold;
-    color: rgba(255,255,255,0.8);
-}
-#quote-widget #quote-author::before {
-    content: "— ";
-}
-
-#ticker-widget { padding: 0; background: rgba(0,0,0,0.3); overflow: hidden; }
-.ticker-wrap { width: 100%; height: 60px; display: flex; align-items: center; }
-.ticker-content { display: inline-block; white-space: nowrap; animation: ticker 30s linear infinite; }
-.ticker-content:hover { animation-play-state: paused; }
-.ticker-content a { color: #fff; text-decoration: none; margin: 0 25px; font-size: 1.1rem; }
-.ticker-content a:hover { text-decoration: underline; }
-.ticker-content span { margin: 0 25px; }
-@keyframes ticker {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); } /* 滚动一半后无缝衔接 */
-}
-
-#github-widget .repo-name { font-size: 1.5rem; font-weight: bold; margin-bottom: 15px; }
-#github-widget .repo-name a { color: #fff; text-decoration: none; }
-#github-widget .repo-desc { color: rgba(255,255,255,0.8); margin-bottom: 20px; }
-#github-widget .repo-stats { display: flex; justify-content: space-around; }
-#github-widget .stat { text-align: center; }
-#github-widget .stat-count { font-size: 1.8rem; font-weight: bold; }
-#github-widget .stat-label { font-size: 0.9rem; color: rgba(255,255,255,0.6); }
