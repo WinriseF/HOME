@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>主页</title>
+    <title>导航主页</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 <body>
+    <div class="background-fixed"></div>
     <div class="background-overlay"></div>
 
     <header class="top-container">
@@ -27,24 +28,24 @@
             <input type="text" id="search-input" placeholder="在网上搜索..." autocomplete="off">
             <button id="search-button"><i class="fas fa-search"></i></button>
         </div>
-
         <nav class="quick-links">
             <a href="https://github.com/" target="_blank">GitHub</a>
             <a href="https://www.youtube.com/" target="_blank">YouTube</a>
             <a href="https://www.bilibili.com/" target="_blank">Bilibili</a>
             <a href="https://mail.google.com/" target="_blank">Gmail</a>
-            <a href="https://v2ex.com/" target="_blank">V2EX</a>
         </nav>
+        <div class="scroll-down-indicator">
+            <i class="fas fa-chevron-down"></i>
+        </div>
     </main>
     
     <section class="widgets-section">
-        <div id="todo-widget" class="widget">
+        <div id="todo-widget" class="widget animatable">
             <h2><i class="fas fa-check-square"></i> 待办清单</h2>
             <div class="todo-input-container">
                 <input type="text" id="todo-input" placeholder="添加新任务，按回车键确认">
             </div>
-            <ul id="todo-list">
-                </ul>
+            <ul id="todo-list"></ul>
         </div>
     </section>
 
@@ -53,8 +54,12 @@
     </div>
 
     <aside id="drawer-panel" class="drawer-panel">
-        </aside>
+        <h2>网站导航</h2>
+        <div id="drawer-grid" class="drawer-grid">
+            </div>
+    </aside>
 
+    <script src="sites.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
