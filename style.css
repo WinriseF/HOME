@@ -83,24 +83,54 @@ body {
 }
 @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translate(-50%, 0); } 40% { transform: translate(-50%, -15px); } 60% { transform: translate(-50%, -5px); } }
 
-/* ===== 6. Widgets Section & General Widget Style ===== */
+/* ===== 6. Widgets Section & General Widget Style (升级为瀑布流布局) ===== */
 .widgets-section {
-    padding: 10vh 20px; display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    align-items: flex-start; gap: 30px;
-    width: 100%; max-width: 1200px; margin: 0 auto;
-    position: relative; z-index: 5;
+    padding: 10vh 20px;
+    width: 100%;
+    max-width: 1200px; /* 限制整体最大宽度 */
+    margin: 0 auto; /* 居中 */
+    position: relative;
+    z-index: 5;
+
+    /* 核心改动：启用多列布局 (瀑布流) */
+    column-gap: 30px; /* 列之间的间距 */
+    column-count: 3;  /* 默认3列，适用于桌面端 */
 }
+
+/* 响应式调整：当屏幕宽度小于900px时，变为2列 */
+@media (max-width: 900px) {
+    .widgets-section {
+        column-count: 2;
+    }
+}
+
+/* 响应式调整：当屏幕宽度小于600px时，变为1列 */
+@media (max-width: 600px) {
+    .widgets-section {
+        column-count: 1;
+    }
+}
+
 .widget {
     background: var(--widget-bg);
-    backdrop-filter: blur(var(--bg-blur)); -webkit-backdrop-filter: blur(var(--bg-blur));
+    backdrop-filter: blur(var(--bg-blur));
+    -webkit-backdrop-filter: blur(var(--bg-blur));
     border: 1px solid var(--widget-border-color);
     border-radius: var(--widget-radius);
     box-shadow: var(--widget-shadow);
-    width: 100%; text-align: left; padding: 30px;
+    width: 100%;
+    text-align: left;
+    padding: 30px;
+
+    /* 核心改动：防止组件在跨列时被切断 */
+    break-inside: avoid;
+    margin-bottom: 30px; /* 组件之间的垂直间距 */
+    display: inline-block; /* 配合 break-inside */
 }
+
 .widget h2 {
-    text-align: center; margin-bottom: 25px;
+    text-align: center;
+    margin-bottom: 25px;
     text-shadow: 0 1px 3px rgba(0,0,0,0.3);
 }
 
