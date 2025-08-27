@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的导航主页</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+    <div class="background-overlay"></div>
+
+    <header class="time-container">
+        <h1 id="current-time"></h1>
+    </header>
+
+    <main class="main-content">
+        <div class="search-container">
+            <div class="engine-selector">
+                <img id="current-engine-icon" src="https://www.google.com/favicon.ico" alt="Google">
+            </div>
+            <input type="text" id="search-input" placeholder="在网上搜索..." autocomplete="off">
+            <button id="search-button"><i class="fas fa-search"></i></button>
+        </div>
+
+        <nav class="quick-links">
+            <a href="https://github.com/" target="_blank">GitHub</a>
+            <a href="https://www.youtube.com/" target="_blank">YouTube</a>
+            <a href="https://www.bilibili.com/" target="_blank">Bilibili</a>
+            <a href="https://mail.google.com/" target="_blank">Gmail</a>
+            <a href="https://v2ex.com/" target="_blank">V2EX</a>
+        </nav>
+    </main>
+
+    <section id="news-section" class="news-section">
+        <div class="container">
+            <h2><i class="fas fa-fire"></i> 今日热点</h2>
+            <div id="news-list" class="news-list">
+                </div>
+            <div id="loader" class="loader" style="display: none;"></div>
+        </div>
+    </section>
+    
+    <div id="toolbox-button" class="toolbox-button">
+        <i class="fas fa-th-large"></i>
+    </div>
+
+    <aside id="drawer-panel" class="drawer-panel">
+        <h2>网站导航</h2>
+        <div class="drawer-grid">
+            <a href="https://www.zhihu.com/" class="site-item" target="_blank">
+                <img src="https://static.zhihu.com/heifetz/favicon.ico" alt="知乎">
+                <span>知乎</span>
+            </a>
+            <a href="https://www.weibo.com/" class="site-item" target="_blank">
+                <img src="https://weibo.com/favicon.ico" alt="微博">
+                <span>微博</span>
+            </a>
+            <a href="https://www.douban.com/" class="site-item" target="_blank">
+                <img src="https://www.douban.com/favicon.ico" alt="豆瓣">
+                <span>豆瓣</span>
+            </a>
+             <a href="https://www.taobao.com/" class="site-item" target="_blank">
+                <img src="https://www.taobao.com/favicon.ico" alt="淘宝">
+                <span>淘宝</span>
+            </a>
+             <a href="https://www.jd.com/" class="site-item" target="_blank">
+                <img src="https://www.jd.com/favicon.ico" alt="京东">
+                <span>京东</span>
+            </a>
+            <a href="https://developer.mozilla.org/" class="site-item" target="_blank">
+                <img src="https://developer.mozilla.org/favicon.ico" alt="MDN">
+                <span>MDN</span>
+            </a>
+            <a href="https://stackoverflow.com/" class="site-item" target="_blank">
+                <img src="https://cdn.sstatic.net/Sites/stackoverflow/Img/favicon.ico" alt="Stack Overflow">
+                <span>Stack Overflow</span>
+            </a>
+             <a href="https://www.amazon.com/" class="site-item" target="_blank">
+                <img src="https://www.amazon.com/favicon.ico" alt="Amazon">
+                <span>Amazon</span>
+            </a>
+        </div>
+    </aside>
+
+    <script src="script.js"></script>
+</body>
+</html>
