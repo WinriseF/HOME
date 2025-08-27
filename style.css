@@ -9,19 +9,12 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     color: #fff;
     height: 100vh;
-    /* 将 overflow: hidden; 修改为 overflow-y: auto; */
     overflow-y: auto;
     background-image: url('https://api.btstu.cn/sjbz/api.php?lx=fengjing&format=images');
     background-size: cover;
     background-position: center;
-    /* background-attachment: fixed; 让背景图在滚动时不移动 */
     background-attachment: fixed;
-    /* 移除 flex 布局，采用默认的块级布局 */
-    /* display: flex; */
-    /* justify-content: center; */
-    /* align-items: center; */
     text-align: center;
-    transition: background-image 1s ease-in-out;
 }
 
 .background-overlay {
@@ -34,275 +27,166 @@ body {
     z-index: -1;
 }
 
-/* 时间显示 */
-.time-container {
+/* ===== 顶部容器更新 ===== */
+.top-container {
     position: absolute;
     top: 20px;
     left: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    z-index: 10;
 }
 
+.header-widget {
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 10px 15px;
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+    text-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+#time-container {
+    text-align: left;
+}
 #current-time {
     font-size: 2rem;
     font-weight: 500;
-    text-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+#weather-container {
+    text-align: right;
+    font-size: 0.9rem;
+}
+#weather-container .weather-main {
+    display: flex;
+    align-items: center;
+}
+#weather-container i {
+    font-size: 2.5rem;
+    margin-right: 10px;
+}
+#weather-container .temp {
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+#weather-container .city {
+    margin-top: 5px;
+    font-weight: 300;
 }
 
 
 /* 主内容区域 */
 .main-content {
-    min-height: 100vh; /* 确保搜索主屏至少占满一个屏幕的高度 */
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     max-width: 600px;
     width: 90%;
-    margin: 0 auto; /* 居中 */
-}
-
-/* 搜索容器 */
-.search-container {
-    display: flex;
-    background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 50px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    padding: 5px;
-    margin-bottom: 2rem;
-    transition: background-color 0.3s;
-}
-
-.search-container:hover, .search-container:focus-within {
-     background-color: rgba(255, 255, 255, 0.3);
-}
-
-.engine-selector {
-    padding: 5px 10px;
-    cursor: pointer;
-}
-.engine-selector img {
-    width: 24px;
-    height: 24px;
-    vertical-align: middle;
-}
-
-#search-input {
-    flex-grow: 1;
-    border: none;
-    background: transparent;
-    outline: none;
-    color: #fff;
-    font-size: 1.1rem;
-    padding: 10px;
-}
-
-#search-input::placeholder {
-    color: rgba(255, 255, 255, 0.7);
-}
-
-#search-button {
-    border: none;
-    background: transparent;
-    color: #fff;
-    font-size: 1.2rem;
-    cursor: pointer;
-    padding: 0 20px;
-}
-
-/* 常用链接 */
-.quick-links a {
-    color: #fff;
-    text-decoration: none;
-    margin: 0 15px;
-    font-size: 1rem;
-    transition: transform 0.2s;
-    display: inline-block;
-    text-shadow: 0 0 5px rgba(0,0,0,0.5);
-}
-
-.quick-links a:hover {
-    transform: scale(1.1);
-}
-
-
-/* 工具盒子按钮 */
-.toolbox-button {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 50px;
-    height: 50px;
-    background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.5rem;
-    cursor: pointer;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    transition: all 0.3s;
-}
-
-.toolbox-button:hover {
-    background-color: rgba(255, 255, 255, 0.4);
-    transform: rotate(45deg);
-}
-
-/* 抽屉面板 */
-.drawer-panel {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 320px;
-    height: 100%;
-    background-color: rgba(30, 30, 30, 0.8);
-    backdrop-filter: blur(15px);
-    border-left: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 20px;
-    transform: translateX(100%); /* 默认移出屏幕 */
-    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    overflow-y: auto;
-}
-
-.drawer-panel.open {
-    transform: translateX(0); /* 显示 */
-}
-
-.drawer-panel h2 {
-    margin-bottom: 20px;
-    text-align: left;
-    font-weight: 500;
-}
-
-.drawer-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-}
-
-.site-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-    border-radius: 10px;
-    text-decoration: none;
-    color: #fff;
-    background-color: rgba(255, 255, 255, 0.1);
-    transition: background-color 0.3s;
-}
-
-.site-item:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-}
-
-.site-item img {
-    width: 32px;
-    height: 32px;
-    margin-bottom: 8px;
-}
-
-.site-item span {
-    font-size: 0.85rem;
-    white-space: nowrap;
-}
-
-/* ==================== 新闻区域样式 ==================== */
-.news-section {
-    padding: 50px 0;
-    background-color: #f4f6f8; /* 使用一个浅灰色背景与主屏区分 */
-    color: #333; /* 新闻区文字颜色改为深色 */
-    min-height: 100vh;
-}
-
-.news-section .container {
-    max-width: 800px;
     margin: 0 auto;
-    padding: 0 20px;
+}
+
+/* ... 搜索框 和 Quick-Links 样式保持不变 ... */
+.search-container { display: flex; background-color: rgba(255, 255, 255, 0.2); border-radius: 50px; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); padding: 5px; margin-bottom: 2rem; transition: background-color 0.3s; }
+.search-container:hover, .search-container:focus-within { background-color: rgba(255, 255, 255, 0.3); }
+.engine-selector { padding: 5px 10px; cursor: pointer; }
+.engine-selector img { width: 24px; height: 24px; vertical-align: middle; }
+#search-input { flex-grow: 1; border: none; background: transparent; outline: none; color: #fff; font-size: 1.1rem; padding: 10px; }
+#search-input::placeholder { color: rgba(255, 255, 255, 0.7); }
+#search-button { border: none; background: transparent; color: #fff; font-size: 1.2rem; cursor: pointer; padding: 0 20px; }
+.quick-links a { color: #fff; text-decoration: none; margin: 0 15px; font-size: 1rem; transition: transform 0.2s; display: inline-block; text-shadow: 0 0 5px rgba(0,0,0,0.5); }
+.quick-links a:hover { transform: scale(1.1); }
+
+/* ===== 底部组件区域样式 ===== */
+.widgets-section {
+    padding: 40px 20px 80px;
+    background-color: #f4f6f8;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+.widget {
+    background: #fff;
+    color: #333;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    padding: 25px;
+    width: 100%;
+    max-width: 500px;
     text-align: left;
 }
 
-.news-section h2 {
-    font-size: 2rem;
-    margin-bottom: 30px;
+/* ===== 待办清单样式 ===== */
+#todo-widget h2 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    color: #333;
     text-align: center;
-    color: #111;
 }
-
-.news-section h2 .fa-fire {
-    color: #ff4500;
-}
-
-.news-list .news-item {
-    background-color: #fff;
-    border-radius: 8px;
-    padding: 20px;
+#todo-widget .todo-input-container {
     margin-bottom: 15px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+#todo-widget #todo-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+#todo-widget ul {
+    list-style: none;
+    padding: 0;
+}
+#todo-widget li {
     display: flex;
     align-items: center;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.news-list .news-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-}
-
-.news-item .index {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #999;
-    margin-right: 20px;
-    min-width: 25px;
-    text-align: center;
-}
-
-.news-item .index.top-3 {
-    color: #ff4500;
-}
-
-.news-item .content {
-    flex-grow: 1;
-}
-
-.news-item .content a {
+    padding: 12px 5px;
+    border-bottom: 1px solid #eee;
     font-size: 1.1rem;
-    font-weight: 500;
-    color: #1a1a1a;
-    text-decoration: none;
-    transition: color 0.2s;
+    transition: background-color 0.2s;
+}
+#todo-widget li:hover {
+    background-color: #f9f9f9;
+}
+#todo-widget li.completed span {
+    text-decoration: line-through;
+    color: #aaa;
+}
+#todo-widget li span {
+    flex-grow: 1;
+    cursor: pointer;
+}
+#todo-widget li .delete-btn {
+    background: none;
+    border: none;
+    color: #ccc;
+    cursor: pointer;
+    font-size: 1.2rem;
+    visibility: hidden; /* 默认隐藏 */
+    opacity: 0;
+    transition: opacity 0.2s, color 0.2s;
+}
+#todo-widget li:hover .delete-btn {
+    visibility: visible; /* 悬停时显示 */
+    opacity: 1;
+}
+#todo-widget li .delete-btn:hover {
+    color: #ff4d4d; /* 悬停在按钮上时变红 */
 }
 
-.news-item .content a:hover {
-    color: #007bff;
-}
 
-.news-item .content p {
-    font-size: 0.9rem;
-    color: #666;
-    margin-top: 5px;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    line-clamp: 1;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-/* 加载动画 */
-.loader {
-    margin: 40px auto;
-    border: 5px solid #e0e0e0;
-    border-top: 5px solid #007bff;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
+/* ... 工具盒子 和 抽屉面板 样式保持不变 ... */
+.toolbox-button { position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px; background-color: rgba(255, 255, 255, 0.2); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; cursor: pointer; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); transition: all 0.3s; z-index: 100; }
+.toolbox-button:hover { background-color: rgba(255, 255, 255, 0.4); transform: rotate(45deg); }
+.drawer-panel { position: fixed; top: 0; right: 0; width: 320px; height: 100%; background-color: rgba(30, 30, 30, 0.8); backdrop-filter: blur(15px); border-left: 1px solid rgba(255, 255, 255, 0.2); padding: 20px; transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); overflow-y: auto; z-index: 200; }
+.drawer-panel.open { transform: translateX(0); }
+.drawer-panel h2 { margin-bottom: 20px; text-align: left; font-weight: 500; }
+.drawer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+.site-item { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px; border-radius: 10px; text-decoration: none; color: #fff; background-color: rgba(255, 255, 255, 0.1); transition: background-color 0.3s; }
+.site-item:hover { background-color: rgba(255, 255, 255, 0.2); }
+.site-item img { width: 32px; height: 32px; margin-bottom: 8px; }
+.site-item span { font-size: 0.85rem; white-space: nowrap; }

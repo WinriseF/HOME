@@ -10,8 +10,13 @@
 <body>
     <div class="background-overlay"></div>
 
-    <header class="time-container">
-        <h1 id="current-time"></h1>
+    <header class="top-container">
+        <div id="time-container" class="header-widget">
+            <h1 id="current-time"></h1>
+        </div>
+        <div id="weather-container" class="header-widget">
+            <p>正在获取天气...</p>
+        </div>
     </header>
 
     <main class="main-content">
@@ -31,57 +36,24 @@
             <a href="https://v2ex.com/" target="_blank">V2EX</a>
         </nav>
     </main>
-
-    <section id="news-section" class="news-section">
-        <div class="container">
-            <h2><i class="fas fa-fire"></i> 今日热点</h2>
-            <div id="news-list" class="news-list">
-                </div>
-            <div id="loader" class="loader" style="display: none;"></div>
+    
+    <section class="widgets-section">
+        <div id="todo-widget" class="widget">
+            <h2><i class="fas fa-check-square"></i> 待办清单</h2>
+            <div class="todo-input-container">
+                <input type="text" id="todo-input" placeholder="添加新任务，按回车键确认">
+            </div>
+            <ul id="todo-list">
+                </ul>
         </div>
     </section>
-    
+
     <div id="toolbox-button" class="toolbox-button">
         <i class="fas fa-th-large"></i>
     </div>
 
     <aside id="drawer-panel" class="drawer-panel">
-        <h2>网站导航</h2>
-        <div class="drawer-grid">
-            <a href="https://www.zhihu.com/" class="site-item" target="_blank">
-                <img src="https://static.zhihu.com/heifetz/favicon.ico" alt="知乎">
-                <span>知乎</span>
-            </a>
-            <a href="https://www.weibo.com/" class="site-item" target="_blank">
-                <img src="https://weibo.com/favicon.ico" alt="微博">
-                <span>微博</span>
-            </a>
-            <a href="https://www.douban.com/" class="site-item" target="_blank">
-                <img src="https://www.douban.com/favicon.ico" alt="豆瓣">
-                <span>豆瓣</span>
-            </a>
-             <a href="https://www.taobao.com/" class="site-item" target="_blank">
-                <img src="https://www.taobao.com/favicon.ico" alt="淘宝">
-                <span>淘宝</span>
-            </a>
-             <a href="https://www.jd.com/" class="site-item" target="_blank">
-                <img src="https://www.jd.com/favicon.ico" alt="京东">
-                <span>京东</span>
-            </a>
-            <a href="https://developer.mozilla.org/" class="site-item" target="_blank">
-                <img src="https://developer.mozilla.org/favicon.ico" alt="MDN">
-                <span>MDN</span>
-            </a>
-            <a href="https://stackoverflow.com/" class="site-item" target="_blank">
-                <img src="https://cdn.sstatic.net/Sites/stackoverflow/Img/favicon.ico" alt="Stack Overflow">
-                <span>Stack Overflow</span>
-            </a>
-             <a href="https://www.amazon.com/" class="site-item" target="_blank">
-                <img src="https://www.amazon.com/favicon.ico" alt="Amazon">
-                <span>Amazon</span>
-            </a>
-        </div>
-    </aside>
+        </aside>
 
     <script src="script.js"></script>
 </body>
