@@ -14,6 +14,7 @@ body {
     left: 0;
     width: 100%;
     height: 100vh;
+    /* background-image: url('https://api.btstu.cn/sjbz/api.php?lx=dongman&format=images'); */
     background-image: url('https://api.btstu.cn/sjbz/api.php?lx=fengjing&format=images');
     background-size: cover;
     background-position: center;

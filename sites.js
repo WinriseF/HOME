@@ -52,11 +52,6 @@ const siteData = [
         icon: 'https://www.v2ex.com/favicon.ico'
     },
     {
-        name: '稀土掘金',
-        url: 'https://juejin.cn/',
-        icon: 'https://juejin.cn/favicon.ico'
-    },
-    {
         name: 'Unsplash',
         url: 'https://unsplash.com/',
         icon: 'https://unsplash.com/favicon.ico'
