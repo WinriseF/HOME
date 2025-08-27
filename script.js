@@ -133,6 +133,124 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     populateDrawer();
 
+    // ==========================================================
+    // ===== 新增功能 8: 快捷便签 (使用localStorage) ===========
+    // ==========================================================
+    const notesTextarea = document.getElementById('notes-textarea');
+
+    // 页面加载时，读取本地存储的便签内容
+    if (localStorage.getItem('notes')) {
+        notesTextarea.value = localStorage.getItem('notes');
+    }
+
+    // 当用户输入时，自动保存到本地存储
+    notesTextarea.addEventListener('input', () => {
+        localStorage.setItem('notes', notesTextarea.value);
+    });
+
+
+    // ==========================================================
+    // ===== 新增功能 9: 每日名言 (升级版，使用Quotable.io) ======
+    // ==========================================================
+    const quoteContent = document.getElementById('quote-content');
+    const quoteAuthor = document.getElementById('quote-author');
+
+    async function fetchQuote() {
+        // 使用稳定、可靠的开源名言API
+        const quoteApiUrl = 'https://api.quotable.io/random';
+        
+        try {
+            const response = await fetch(quoteApiUrl);
+            const data = await response.json();
+            
+            // Quotable.io API 返回的数据结构是 { content: "...", author: "..." }
+            if (data.content && data.author) {
+                // 这个API主要提供英文名言，所以我们只显示英文
+                quoteContent.innerHTML = `<p>"${data.content}"</p>`;
+                quoteAuthor.textContent = data.author;
+            } else {
+                quoteContent.textContent = '无法加载名言，请稍后再试。';
+            }
+        } catch (error) {
+            console.error("获取名言失败:", error);
+            // 备用名言，以防API请求失败
+            quoteContent.innerHTML = `<p>"The best way to predict the future is to invent it."</p>`;
+            quoteAuthor.textContent = 'Alan Kay';
+        }
+    }
+    
+    fetchQuote();
+
+    // ==========================================================
+    // ===== 新增功能 11: Hacker News 滚动条 ===================
+    // ==========================================================
+    const tickerContent = document.getElementById('ticker-content');
+
+    async function fetchHackerNews() {
+        try {
+            const topStoriesUrl = 'https://hacker-news.firebaseio.com/v0/topstories.json';
+            const res = await fetch(topStoriesUrl);
+            const storyIds = await res.json();
+            const top5Ids = storyIds.slice(0, 10); // 获取前10个
+
+            const storyPromises = top5Ids.map(id => 
+                fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json`).then(res => res.json())
+            );
+
+            const stories = await Promise.all(storyPromises);
+
+            let tickerHTML = '';
+            stories.forEach(story => {
+                if(story) {
+                    tickerHTML += `<a href="${story.url}" target="_blank">${story.title}</a>`;
+                }
+            });
+            // 复制一份内容以实现无缝滚动
+            tickerContent.innerHTML = tickerHTML + tickerHTML;
+
+        } catch (error) {
+            console.error("获取Hacker News失败:", error);
+            tickerContent.innerHTML = '<span><i class="fab fa-hacker-news"></i> Hacker News 热点加载失败</span>';
+        }
+    }
+    fetchHackerNews();
+
+    // ==========================================================
+    // ===== 新增功能 12: GitHub 项目追踪 ======================
+    // ==========================================================
+    const githubWidget = document.getElementById('github-widget');
+
+    async function fetchRepoStats(repo) { // repo格式为 "用户名/仓库名"
+        const apiUrl = `https://api.github.com/repos/${repo}`;
+        try {
+            const response = await fetch(apiUrl);
+            const data = await response.json();
+
+            githubWidget.innerHTML = `
+                <div class="repo-name"><i class="fab fa-github"></i> <a href="${data.html_url}" target="_blank">${data.full_name}</a></div>
+                <p class="repo-desc">${data.description}</p>
+                <div class="repo-stats">
+                    <div class="stat">
+                        <div class="stat-count">${data.stargazers_count}</div>
+                        <div class="stat-label">Stars</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-count">${data.forks_count}</div>
+                        <div class="stat-label">Forks</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-count">${data.open_issues_count}</div>
+                        <div class="stat-label">Open Issues</div>
+                    </div>
+                </div>
+            `;
+        } catch (error) {
+            console.error(`获取 ${repo} 信息失败:`, error);
+            githubWidget.innerHTML = `<p>加载 ${repo} 信息失败。</p>`
+        }
+    }
+    // 在这里修改想追踪的任何公开项目
+    fetchRepoStats('vuejs/vue');
     // --- 新增功能7: 滚动触发动画 ---
     const animatedElements = document.querySelectorAll('.animatable');
     if ('IntersectionObserver' in window) {

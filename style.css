@@ -88,10 +88,17 @@ body {
 
 .widgets-section {
     padding: 10vh 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 40px;
+    /* 改为Grid布局 */
+    display: grid;
+    /* 自动适配列数，每列最小350px，最大1fr */
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    align-items: flex-start; /* 组件顶部对齐 */
+    gap: 30px; /* 组件之间的间距 */
+    
+    /* 限制整体最大宽度，让布局更美观 */
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto; /* 居中 */
     position: relative;
     z-index: 5;
 }
@@ -139,3 +146,66 @@ body {
 .site-item:hover { background-color: rgba(255, 255, 255, 0.2); }
 .site-item img { width: 32px; height: 32px; margin-bottom: 8px; }
 .site-item span { font-size: 0.85rem; white-space: nowrap; }
+
+/* ===== 新增：快捷便签样式 ===== */
+#notes-widget h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+#notes-widget #notes-textarea {
+    width: 100%;
+    height: 200px; /* 您可以按需调整高度 */
+    background: rgba(0,0,0,0.2);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    resize: vertical; /* 允许用户垂直调整大小 */
+}
+
+/* ===== 新增：每日名言样式 ===== */
+#quote-widget {
+    font-family: 'Georgia', 'serif';
+    font-style: italic;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 200px; /* 让它和其他组件高度感接近 */
+}
+#quote-widget #quote-content {
+    font-size: 1.4rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+#quote-widget #quote-author {
+    font-size: 1rem;
+    text-align: right;
+    font-style: normal;
+    font-weight: bold;
+    color: rgba(255,255,255,0.8);
+}
+#quote-widget #quote-author::before {
+    content: "— ";
+}
+
+#ticker-widget { padding: 0; background: rgba(0,0,0,0.3); overflow: hidden; }
+.ticker-wrap { width: 100%; height: 60px; display: flex; align-items: center; }
+.ticker-content { display: inline-block; white-space: nowrap; animation: ticker 30s linear infinite; }
+.ticker-content:hover { animation-play-state: paused; }
+.ticker-content a { color: #fff; text-decoration: none; margin: 0 25px; font-size: 1.1rem; }
+.ticker-content a:hover { text-decoration: underline; }
+.ticker-content span { margin: 0 25px; }
+@keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); } /* 滚动一半后无缝衔接 */
+}
+
+#github-widget .repo-name { font-size: 1.5rem; font-weight: bold; margin-bottom: 15px; }
+#github-widget .repo-name a { color: #fff; text-decoration: none; }
+#github-widget .repo-desc { color: rgba(255,255,255,0.8); margin-bottom: 20px; }
+#github-widget .repo-stats { display: flex; justify-content: space-around; }
+#github-widget .stat { text-align: center; }
+#github-widget .stat-count { font-size: 1.8rem; font-weight: bold; }
+#github-widget .stat-label { font-size: 0.9rem; color: rgba(255,255,255,0.6); }
