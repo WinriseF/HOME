@@ -27,7 +27,8 @@ body {
 .background-fixed {
     position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
     /* background-image: url('https://api.btstu.cn/sjbz/api.php?lx=dongman&format=images'); */
-    background-image: url('https://t.alcy.cc/fj');
+    background-image: url('https://t.alcy.cc/ys');
+    /* background-image: url('https://t.alcy.cc/acg'); */
     background-size: cover; background-position: center; z-index: -2;
 }
 .background-overlay {
