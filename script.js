@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function init() {
 
     // 3. 搜索功能
     (function initSearch() {
-        const searchEngines = [{ name: 'Google', url: 'https://www.google.com/search?q=', icon: 'https://www.google.com/favicon.ico' }, { name: 'Baidu', url: 'https://www.baidu.com/s?wd=', icon: 'https://www.baidu.com/favicon.ico' }, { name: 'Bing', url: 'https://www.bing.com/search?q=', icon: 'https://www.bing.com/favicon.ico' }];
+        const searchEngines = [{ name: 'Google', url: 'https://www.google.com/search?q=', icon: 'https://ts1.tc.mm.bing.net/th/id/ODF.cQGDzDdW-31GYqwCeCzTrw?w=32&h=32&qlt=90&pcl=fffffc&o=6&pid=1.2' }, { name: 'Baidu', url: 'https://www.baidu.com/s?wd=', icon: 'https://www.baidu.com/favicon.ico' }, { name: 'Bing', url: 'https://www.bing.com/search?q=', icon: 'https://www.bing.com/favicon.ico' }];
         let currentEngineIndex = 0;
         function performSearch() {
             const query = searchInput.value.trim();

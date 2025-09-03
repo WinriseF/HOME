@@ -2,6 +2,36 @@
 
 const siteData = [
     {
+        name: 'Gitee',
+        url: 'https://gitee.com/',
+        icon: 'https://gitee.com/favicon.ico'
+    },
+    {
+        name: '豆包',
+        url: 'https://www.doubao.com/',
+        icon: 'https://lf-flow-web-cdn.doubao.com/obj/flow-doubao/doubao/logo-doubao-overflow.png'
+    },
+    {
+        name: 'Gemini',
+        url: 'https://gemini.com/',
+        icon: 'https://ts2.tc.mm.bing.net/th/id/ODF.nAWZa6qAQb-ILV5Rp8qOrw?w=32&h=32&qlt=90&pcl=fffffa&o=6&pid=1.2' || 'https://gemini.com/favicon.ico'
+    },
+    {
+        name: 'ChatGPT',
+        url: 'https://chat.openai.com/',
+        icon: 'https://ts1.tc.mm.bing.net/th/id/ODF.aKklNJAQuz8SBz-Vuh_UCQ?w=32&h=32&qlt=96&pcl=fffffa&o=6&pid=1.2' || 'https://chat.openai.com/favicon.ico'
+    },
+    {
+        name: 'Z.ai',
+        url: 'https://z.ai/',
+        icon: 'https://chat.z.ai/static/logoDark.png'
+    },
+    {
+        name: 'DeepSeek',
+        url: 'https://deepseek.com/',
+        icon: 'https://deepseek.com/favicon.ico'
+    },
+    {
         name: '知乎',
         url: 'https://www.zhihu.com/',
         icon: 'https://static.zhihu.com/heifetz/favicon.ico'
@@ -40,16 +70,6 @@ const siteData = [
         name: 'Amazon',
         url: 'https://www.amazon.com/',
         icon: 'https://www.amazon.com/favicon.ico'
-    },
-    {
-        name: 'Netflix',
-        url: 'https://www.netflix.com/',
-        icon: 'https://www.netflix.com/favicon.ico'
-    },
-    {
-        name: 'V2EX',
-        url: 'https://www.v2ex.com/',
-        icon: 'https://www.v2ex.com/favicon.ico'
     },
     {
         name: 'Unsplash',
