@@ -26,11 +26,7 @@ body {
 /* ===== 3. Background & Overlay ===== */
 .background-fixed {
     position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-    background-image: url('https://api.btstu.cn/sjbz/api.php?lx=dongman&format=images');
-    background-image: url('https://t.alcy.cc/ycy');
     background-image: url('https://t.alcy.cc/pc');
-    background-image: url('https://t.alcy.cc/fj');
-    background-image: url('https://imgapi.xl0408.top/index.php');
     background-size: cover; background-position: center; z-index: -2;
 }
 .background-overlay {
@@ -125,7 +121,6 @@ body {
     text-align: left;
     padding: 30px;
 
-    /* 核心改动：防止组件在跨列时被切断 */
     break-inside: avoid;
     margin-bottom: 30px; /* 组件之间的垂直间距 */
     display: inline-block; /* 配合 break-inside */
@@ -178,7 +173,6 @@ body {
 .repo-item .repo-stats { display: flex; gap: 20px; }
 .repo-item .stat { display: flex; align-items: center; font-size: 0.9rem; }
 .repo-item .stat i { margin-right: 5px; color: rgba(255,255,255,0.7); }
-/* 注意：这里已经删除了之前单项目版本的冗余CSS */
 
 /* ===== 7. Animations ===== */
 .animatable {

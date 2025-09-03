@@ -1,6 +1,21 @@
 // script.js - 3.0 Refactored Version
 
 document.addEventListener('DOMContentLoaded', function init() {
+    
+    // --- 随机背景图功能 ---
+    (function initRandomBackground() {
+        const bgElement = document.querySelector('.background-fixed');
+        const bgUrls = [
+            // 'https://api.btstu.cn/sjbz/api.php?lx=dongman&format=images',
+            'https://t.alcy.cc/ycy',
+            'https://t.alcy.cc/pc',
+            'https://t.alcy.cc/fj',
+            'https://imgapi.xl0408.top/index.php'
+        ];
+        const randomIndex = Math.floor(Math.random() * bgUrls.length);
+        bgElement.style.backgroundImage = `url('${bgUrls[randomIndex]}')`;
+    })();
+
     // --- 元素获取 ---
     const timeElement = document.getElementById('current-time');
     const weatherContainer = document.getElementById('weather-container');
