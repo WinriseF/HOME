@@ -22,6 +22,11 @@ const siteData = [
         icon: 'https://ts1.tc.mm.bing.net/th/id/ODF.aKklNJAQuz8SBz-Vuh_UCQ?w=32&h=32&qlt=96&pcl=fffffa&o=6&pid=1.2' || 'https://chat.openai.com/favicon.ico'
     },
     {
+        name: 'Qwen',
+        url: 'https://chat.qwen.ai/',
+        icon: 'https://assets.alicdn.com/g/qwenweb/qwen-webui-fe/0.0.212/static/favicon.png'
+    },
+    {
         name: 'Z.ai',
         url: 'https://z.ai/',
         icon: 'https://chat.z.ai/static/logoDark.png'
