@@ -486,14 +486,21 @@ document.addEventListener('DOMContentLoaded', function init() {
             elements.drawerCategories.innerHTML = html;
         }
 
-        function toggleDrawer(show) {
-            elements.drawerPanel.classList.toggle('open', show);
-            elements.overlay.classList.toggle('show', show);
-        }
-
-        elements.toolboxBtn.addEventListener('click', () => toggleDrawer(true));
-        elements.drawerClose.addEventListener('click', () => toggleDrawer(false));
-        elements.overlay.addEventListener('click', () => toggleDrawer(false));
+        // 备用方案：直接绑定事件，不依赖 elements 对象
+        document.getElementById('toolbox-button').addEventListener('click', () => {
+            document.getElementById('drawer-panel').classList.add('open');
+            document.getElementById('overlay').classList.add('show');
+        });
+        document.getElementById('drawer-close').addEventListener('click', () => {
+            document.getElementById('drawer-panel').classList.remove('open');
+            document.getElementById('overlay').classList.remove('show');
+        });
+        document.getElementById('overlay').addEventListener('click', () => {
+            document.getElementById('drawer-panel').classList.remove('open');
+            document.getElementById('settings-panel').classList.remove('show');
+            document.getElementById('shortcuts-modal').classList.remove('show');
+            document.getElementById('overlay').classList.remove('show');
+        });
 
         // 抽屉内搜索
         elements.drawerSearch.addEventListener('input', (e) => {
@@ -840,7 +847,7 @@ document.addEventListener('DOMContentLoaded', function init() {
                     if (data.todos) {
                         state.todos = data.todos;
                         localStorage.setItem('todos', JSON.stringify(data.todos));
-                        renderTodos();
+                        getRenderTodos()();
                     }
                     if (data.notes) {
                         state.notes = data.notes;
@@ -958,8 +965,23 @@ document.addEventListener('DOMContentLoaded', function init() {
         return div.innerHTML;
     }
 
-    function renderTodos() {
-        // 待办清单渲染由 initTodo 内部处理
+    // 将 initTodo 的 renderTodos 暴露给全局
+    function getRenderTodos() {
+        return function() {
+            elements.todoList.innerHTML = '';
+            state.todos.forEach((todo, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <div class="todo-checkbox ${todo.completed ? 'checked' : ''}" data-index="${index}"></div>
+                    <span data-index="${index}">${escapeHtml(todo.text)}</span>
+                    <button class="delete-btn" data-index="${index}"><i class="fas fa-times"></i></button>
+                `;
+                elements.todoList.appendChild(li);
+            });
+            const completed = state.todos.filter(t => t.completed).length;
+            elements.todoCompleted.textContent = completed;
+            elements.todoTotal.textContent = state.todos.length;
+        };
     }
 
     // ==================== 启动 ====================
@@ -986,3 +1008,81 @@ document.addEventListener('DOMContentLoaded', function init() {
 
     start();
 });
+
+// ==================== 全局事件绑定 (在 DOM 加载后执行) ====================
+function bindGlobalEvents() {
+    // 设置按钮
+    const settingsBtn = document.getElementById('settings-btn');
+    const settingsPanel = document.getElementById('settings-panel');
+    const settingsClose = document.getElementById('settings-close');
+    if (settingsBtn && settingsPanel) {
+        settingsBtn.addEventListener('click', () => {
+            settingsPanel.classList.add('show');
+            document.getElementById('overlay').classList.add('show');
+        });
+    }
+    if (settingsClose && settingsPanel) {
+        settingsClose.addEventListener('click', () => {
+            settingsPanel.classList.remove('show');
+            document.getElementById('overlay').classList.remove('show');
+        });
+    }
+
+    // 快捷键按钮
+    const shortcutsBtn = document.getElementById('shortcuts-btn');
+    const shortcutsModal = document.getElementById('shortcuts-modal');
+    if (shortcutsBtn && shortcutsModal) {
+        shortcutsBtn.addEventListener('click', () => {
+            shortcutsModal.classList.add('show');
+            document.getElementById('overlay').classList.add('show');
+        });
+    }
+
+    // 工具箱按钮
+    const toolboxButton = document.getElementById('toolbox-button');
+    const drawerPanel = document.getElementById('drawer-panel');
+    if (toolboxButton && drawerPanel) {
+        toolboxButton.addEventListener('click', () => {
+            drawerPanel.classList.add('open');
+            document.getElementById('overlay').classList.add('show');
+        });
+    }
+
+    // 抽屉关闭按钮
+    const drawerClose = document.getElementById('drawer-close');
+    if (drawerClose && drawerPanel) {
+        drawerClose.addEventListener('click', () => {
+            drawerPanel.classList.remove('open');
+            document.getElementById('overlay').classList.remove('show');
+        });
+    }
+
+    // 遮罩层点击关闭
+    const overlay = document.getElementById('overlay');
+    if (overlay) {
+        overlay.addEventListener('click', () => {
+            document.querySelectorAll('.modal, .settings-panel, .drawer-panel').forEach(el => {
+                el.classList.remove('show', 'open');
+            });
+            overlay.classList.remove('show');
+        });
+    }
+
+    // 弹窗关闭按钮
+    document.querySelectorAll('.modal .close-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            btn.closest('.modal').classList.remove('show');
+            const overlay = document.getElementById('overlay');
+            if (overlay && !document.querySelector('.modal.show, .settings-panel.show')) {
+                overlay.classList.remove('show');
+            }
+        });
+    });
+}
+
+// 页面加载完成后绑定全局事件
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bindGlobalEvents);
+} else {
+    bindGlobalEvents();
+}
