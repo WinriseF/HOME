@@ -8,11 +8,7 @@ document.addEventListener('DOMContentLoaded', function init() {
             // 使用国内稳定的背景图源
             bing: 'https://bing.img.run/rand_1366x768.php',
             unsplash: 'https://picsum.photos/1920/1080',
-            random: [
-                'https://pic.netbian.com/index.php?url=/uploads/allimg/2401/01-1Z1011AK9-51.jpg',
-                'https://pic.netbian.com/index.php?url=/uploads/allimg/2401/01-1Z1011A911-52.jpg',
-                'https://pic.netbian.com/index.php?url=/uploads/allimg/2312/30-231229093038-50.jpg'
-            ],
+            random: 'https://api.dujin.org/rand/1920.1080/acg',
             wallpaper: 'https://picsum.photos/seed/style/1920/1080'
         },
         pomodoroTimes: { work: 25, short: 5, long: 15 }
@@ -110,9 +106,8 @@ document.addEventListener('DOMContentLoaded', function init() {
                 url = `https://picsum.photos/seed/${Date.now()}/1920/1080`;
                 break;
             case 'random':
-                // 随机风景壁纸
-                const randomUrls = CONFIG.backgroundSources.random;
-                url = randomUrls[Math.floor(Math.random() * randomUrls.length)];
+                // 随机动漫壁纸 - 直接使用 URL
+                url = CONFIG.backgroundSources.random;
                 break;
             case 'wallpaper':
                 // 风格化壁纸
