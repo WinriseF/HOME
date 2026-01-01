@@ -8,8 +8,8 @@ document.addEventListener('DOMContentLoaded', function init() {
             // 使用国内稳定的背景图源
             bing: 'https://bing.img.run/rand_1366x768.php',
             unsplash: 'https://picsum.photos/1920/1080',
-            random: 'https://api.dujin.org/rand/1920.1080/acg',
-            wallpaper: 'https://picsum.photos/seed/style/1920/1080'
+            random: 'https://t.alcy.cc/pc',
+            wallpaper: 'https://t.alcy.cc/fj'
         },
         pomodoroTimes: { work: 25, short: 5, long: 15 }
     };
