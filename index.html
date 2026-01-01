@@ -5,83 +5,415 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>导航主页</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <!-- 使用国内更快 Font Awesome 源 -->
+    <link rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/obj/cdn-production/4c4debe4e567e3aa911f4a6d6b1dc1e9/font_awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- 动态背景 -->
     <div class="background-fixed"></div>
     <div class="background-overlay"></div>
 
+    <!-- 顶部栏 -->
     <header class="top-container">
-        <div id="time-container" class="header-widget">
-            <h1 id="current-time"></h1>
+        <div class="header-left">
+            <div id="time-container" class="header-widget">
+                <h1 id="current-time"></h1>
+                <p id="current-date"></p>
+            </div>
+            <div id="lunar-container" class="header-widget">
+                <p id="lunar-date"></p>
+            </div>
         </div>
-        <div id="weather-container" class="header-widget">
-            <p>正在获取天气...</p>
+        <div class="header-right">
+            <button id="settings-btn" class="icon-btn" title="设置">
+                <i class="fas fa-cog"></i>
+            </button>
+            <button id="shortcuts-btn" class="icon-btn" title="快捷键 (?)">
+                <i class="fas fa-keyboard"></i>
+            </button>
         </div>
     </header>
 
+    <!-- 主搜索区 -->
     <main class="main-content">
-        <div class="search-container">
-            <div class="engine-selector">
-                <img id="current-engine-icon" src="https://ts1.tc.mm.bing.net/th/id/ODF.cQGDzDdW-31GYqwCeCzTrw?w=32&h=32&qlt=90&pcl=fffffc&o=6&pid=1.2" alt="Google">
+        <div class="search-wrapper">
+            <div class="search-container">
+                <div class="engine-selector" id="engine-selector">
+                    <div class="engine-icon current" style="background: #4285f4;">G</div>
+                </div>
+                <input type="text" id="search-input" placeholder="输入搜索内容..." autocomplete="off">
+                <button id="search-button"><i class="fas fa-search"></i></button>
             </div>
-            <input type="text" id="search-input" placeholder="在网上搜索..." autocomplete="off">
-            <button id="search-button"><i class="fas fa-search"></i></button>
+            <div class="engine-list" id="engine-list">
+                <div class="engine-item" data-engine="google">
+                    <div class="engine-icon" style="background: #4285f4;">G</div>
+                    <span>Google</span>
+                </div>
+                <div class="engine-item" data-engine="baidu">
+                    <div class="engine-icon" style="background: #4e8cef;">百</div>
+                    <span>百度</span>
+                </div>
+                <div class="engine-item" data-engine="bing">
+                    <div class="engine-icon" style="background: #008373;">B</div>
+                    <span>Bing</span>
+                </div>
+                <div class="engine-item" data-engine="zhihu">
+                    <div class="engine-icon" style="background: #0066ff;">知</div>
+                    <span>知乎</span>
+                </div>
+                <div class="engine-item" data-engine="bilibili">
+                    <div class="engine-icon" style="background: #00a1d6;">B</div>
+                    <span>B站</span>
+                </div>
+                <div class="engine-item" data-engine="github">
+                    <div class="engine-icon" style="background: #24292e;">GH</div>
+                    <span>GitHub</span>
+                </div>
+                <div class="engine-item" data-engine="stackoverflow">
+                    <div class="engine-icon" style="background: #f48024;">SO</div>
+                    <span>Stack Overflow</span>
+                </div>
+                <div class="engine-item" data-engine="duckduckgo">
+                    <div class="engine-icon" style="background: #de5833;">D</div>
+                    <span>DuckDuckGo</span>
+                </div>
+            </div>
         </div>
         <nav class="quick-links">
-            <a href="https://github.com/" target="_blank">GitHub</a>
-            <a href="https://www.youtube.com/" target="_blank">YouTube</a>
-            <a href="https://www.bilibili.com/" target="_blank">Bilibili</a>
-            <a href="https://mail.google.com/" target="_blank">Gmail</a>
+            <a href="https://github.com/" target="_blank" class="quick-link">
+                <i class="fab fa-github"></i>
+                <span>GitHub</span>
+            </a>
+            <a href="https://www.youtube.com/" target="_blank" class="quick-link">
+                <i class="fab fa-youtube"></i>
+                <span>YouTube</span>
+            </a>
+            <a href="https://www.bilibili.com/" target="_blank" class="quick-link">
+                <i class="fas fa-tv"></i>
+                <span>B站</span>
+            </a>
+            <a href="https://mail.google.com/" target="_blank" class="quick-link">
+                <i class="fas fa-envelope"></i>
+                <span>Gmail</span>
+            </a>
+            <a href="https://chat.openai.com/" target="_blank" class="quick-link">
+                <i class="fas fa-robot"></i>
+                <span>ChatGPT</span>
+            </a>
+            <a href="https://www.zhihu.com/" target="_blank" class="quick-link">
+                <i class="fas fa-question-circle"></i>
+                <span>知乎</span>
+            </a>
         </nav>
-        <div class="scroll-down-indicator">
+        <div class="scroll-indicator">
             <i class="fas fa-chevron-down"></i>
         </div>
     </main>
-    
+
+    <!-- Widgets 区域 -->
     <section class="widgets-section">
+        <!-- 便签 -->
+        <div id="notes-widget" class="widget animatable">
+            <div class="widget-header">
+                <h2><i class="fas fa-sticky-note"></i> 快捷便签</h2>
+                <div class="widget-actions">
+                    <button class="action-btn" id="notes-export" title="导出"><i class="fas fa-download"></i></button>
+                </div>
+            </div>
+            <textarea id="notes-textarea" placeholder="在这里记录你的想法，支持换行..."></textarea>
+            <div class="notes-footer">
+                <span id="notes-count">0 字</span>
+                <span id="notes-time">自动保存</span>
+            </div>
+        </div>
+
+        <!-- 待办清单 -->
         <div id="todo-widget" class="widget animatable">
-            <h2><i class="fas fa-check-square"></i> 待办清单</h2>
+            <div class="widget-header">
+                <h2><i class="fas fa-check-square"></i> 待办清单</h2>
+                <div class="todo-stats">
+                    <span id="todo-completed">0</span>/<span id="todo-total">0</span>
+                </div>
+            </div>
             <div class="todo-input-container">
-                <input type="text" id="todo-input" placeholder="添加新任务，按回车键确认">
+                <input type="text" id="todo-input" placeholder="添加新任务...">
+                <button id="todo-add-btn"><i class="fas fa-plus"></i></button>
             </div>
             <ul id="todo-list"></ul>
         </div>
-        <div id="notes-widget" class="widget animatable">
-            <h2><i class="fas fa-sticky-note"></i> 快捷便签</h2>
-            <textarea id="notes-textarea" placeholder="在这里记录你的想法..."></textarea>
+
+        <!-- 实用工具 -->
+        <div id="tools-widget" class="widget animatable">
+            <div class="widget-header">
+                <h2><i class="fas fa-tools"></i> 实用工具</h2>
+            </div>
+            <div class="tools-grid">
+                <button class="tool-btn" id="pomodoro-btn">
+                    <i class="fas fa-clock"></i>
+                    <span>番茄钟</span>
+                </button>
+                <button class="tool-btn" id="password-btn">
+                    <i class="fas fa-key"></i>
+                    <span>密码生成</span>
+                </button>
+                <button class="tool-btn" id="qrcode-btn">
+                    <i class="fas fa-qrcode"></i>
+                    <span>二维码</span>
+                </button>
+                <button class="tool-btn" id="converter-btn">
+                    <i class="fas fa-exchange-alt"></i>
+                    <span>单位换算</span>
+                </button>
+            </div>
         </div>
 
+        <!-- 每日名言 -->
         <div id="quote-widget" class="widget animatable">
+            <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
             <div id="quote-content">
                 <p class="loading">正在加载名言...</p>
             </div>
             <div id="quote-author"></div>
         </div>
+
+        <!-- Hacker News -->
         <div id="ticker-widget" class="widget animatable">
-            <div class="ticker-wrap">
-                <div id="ticker-content" class="ticker-content">
-                    <span><i class="fab fa-hacker-news"></i> 正在加载 Hacker News 热点...</span>
-                </div>
+            <div class="widget-header">
+                <h2><i class="fab fa-hacker-news"></i> Hacker News</h2>
+                <a href="https://news.ycombinator.com/" target="_blank" class="more-link">更多 <i class="fas fa-external-link-alt"></i></a>
+            </div>
+            <div class="news-list" id="news-list">
+                <p class="loading">正在加载...</p>
             </div>
         </div>
+
+        <!-- GitHub 追踪 -->
         <div id="github-widget" class="widget animatable">
-            <h2><i class="fab fa-github"></i> GitHub 项目追踪</h2>
+            <div class="widget-header">
+                <h2><i class="fab fa-github"></i> GitHub 趋势</h2>
+                <a href="https://github.com/trending" target="_blank" class="more-link">更多 <i class="fas fa-external-link-alt"></i></a>
+            </div>
             <div id="github-list-container">
-                <p>正在加载项目数据...</p>
+                <p class="loading">正在加载...</p>
             </div>
         </div>
     </section>
 
-    <div id="toolbox-button" class="toolbox-button">
+    <!-- 工具箱按钮 -->
+    <button id="toolbox-button" class="toolbox-button">
         <i class="fas fa-th-large"></i>
+    </button>
+
+    <!-- 抽屉导航 -->
+    <aside id="drawer-panel" class="drawer-panel">
+        <div class="drawer-header">
+            <h2>网站导航</h2>
+            <button id="drawer-close" class="close-btn"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="drawer-search">
+            <input type="text" id="drawer-search-input" placeholder="搜索网站...">
+        </div>
+        <div id="drawer-categories" class="drawer-categories"></div>
+    </aside>
+
+    <!-- 设置面板 -->
+    <div id="settings-panel" class="settings-panel">
+        <div class="settings-header">
+            <h2><i class="fas fa-cog"></i> 设置</h2>
+            <button id="settings-close" class="close-btn"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="settings-content">
+            <div class="settings-section">
+                <h3>主题</h3>
+                <div class="theme-options">
+                    <button class="theme-btn active" data-theme="glass">
+                        <span class="theme-preview glass-preview"></span>
+                        <span>毛玻璃</span>
+                    </button>
+                    <button class="theme-btn" data-theme="dark">
+                        <span class="theme-preview dark-preview"></span>
+                        <span>暗色</span>
+                    </button>
+                    <button class="theme-btn" data-theme="gradient">
+                        <span class="theme-preview gradient-preview"></span>
+                        <span>渐变</span>
+                    </button>
+                    <button class="theme-btn" data-theme="neon">
+                        <span class="theme-preview neon-preview"></span>
+                        <span>霓虹</span>
+                    </button>
+                </div>
+            </div>
+            <div class="settings-section">
+                <h3>背景</h3>
+                <div class="bg-options">
+                    <button class="bg-btn active" data-bg="bing">Bing 壁纸</button>
+                    <button class="bg-btn" data-bg="unsplash">Unsplash</button>
+                    <button class="bg-btn" data-bg="random">随机动漫</button>
+                    <button class="bg-btn" data-bg="wallpaper">风景壁纸</button>
+                </div>
+            </div>
+            <div class="settings-section">
+                <h3>数据管理</h3>
+                <div class="data-buttons">
+                    <button id="export-data" class="data-btn"><i class="fas fa-download"></i> 导出配置</button>
+                    <button id="import-data" class="data-btn"><i class="fas fa-upload"></i> 导入配置</button>
+                    <button id="reset-data" class="data-btn danger"><i class="fas fa-trash"></i> 重置数据</button>
+                </div>
+                <input type="file" id="import-file" accept=".json" style="display: none;">
+            </div>
+            <div class="settings-section about-section">
+                <p>导航主页 v3.0</p>
+                <p class="shortcut-hint">按 <kbd>?</kbd> 查看快捷键</p>
+            </div>
+        </div>
     </div>
 
-    <aside id="drawer-panel" class="drawer-panel">
-        <h2>网站导航</h2>
-        <div id="drawer-grid" class="drawer-grid">
+    <!-- 快捷键提示 -->
+    <div id="shortcuts-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-keyboard"></i> 快捷键</h2>
+                <button class="close-btn"><i class="fas fa-times"></i></button>
             </div>
-    </aside>
+            <div class="shortcuts-list">
+                <div class="shortcut-item">
+                    <kbd>/</kbd>
+                    <span>聚焦搜索框</span>
+                </div>
+                <div class="shortcut-item">
+                    <kbd>Esc</kbd>
+                    <span>关闭弹窗/抽屉</span>
+                </div>
+                <div class="shortcut-item">
+                    <kbd>?</kbd>
+                    <span>显示此快捷键说明</span>
+                </div>
+                <div class="shortcut-item">
+                    <kbd>G</kbd> + <kbd>G</kbd>
+                    <span>打开 GitHub</span>
+                </div>
+                <div class="shortcut-item">
+                    <kbd>Y</kbd> + <kbd>T</kbd>
+                    <span>打开 YouTube</span>
+                </div>
+                <div class="shortcut-item">
+                    <kbd>B</kbd> + <kbd>B</kbd>
+                    <span>打开 B站</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 番茄钟弹窗 -->
+    <div id="pomodoro-modal" class="modal">
+        <div class="modal-content pomodoro-modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-clock"></i> 番茄钟</h2>
+                <button class="close-btn"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="pomodoro-timer">
+                <div class="timer-display" id="pomodoro-display">25:00</div>
+                <div class="timer-modes">
+                    <button class="timer-mode-btn active" data-mode="work">专注</button>
+                    <button class="timer-mode-btn" data-mode="short">短休</button>
+                    <button class="timer-mode-btn" data-mode="long">长休</button>
+                </div>
+                <div class="timer-controls">
+                    <button id="pomodoro-start" class="timer-btn primary"><i class="fas fa-play"></i> 开始</button>
+                    <button id="pomodoro-pause" class="timer-btn"><i class="fas fa-pause"></i> 暂停</button>
+                    <button id="pomodoro-reset" class="timer-btn"><i class="fas fa-redo"></i> 重置</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 密码生成弹窗 -->
+    <div id="password-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-key"></i> 密码生成器</h2>
+                <button class="close-btn"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="password-generator">
+                <div class="generated-password">
+                    <input type="text" id="password-result" readonly value="点击生成">
+                    <button id="password-copy"><i class="fas fa-copy"></i></button>
+                </div>
+                <div class="password-options">
+                    <label><input type="number" id="password-length" min="6" max="32" value="16"> 长度</label>
+                    <label><input type="checkbox" id="password-upper" checked> 大写</label>
+                    <label><input type="checkbox" id="password-lower" checked> 小写</label>
+                    <label><input type="checkbox" id="password-number" checked> 数字</label>
+                    <label><input type="checkbox" id="password-symbol" checked> 符号</label>
+                </div>
+                <button id="password-generate" class="generate-btn">生成密码</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 二维码弹窗 -->
+    <div id="qrcode-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-qrcode"></i> 二维码生成</h2>
+                <button class="close-btn"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="qrcode-generator">
+                <input type="text" id="qrcode-input" placeholder="输入文本或链接...">
+                <button id="qrcode-generate" class="generate-btn">生成</button>
+                <div id="qrcode-result" class="qrcode-result"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 单位换算弹窗 -->
+    <div id="converter-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-exchange-alt"></i> 单位换算</h2>
+                <button class="close-btn"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="converter">
+                <div class="converter-row">
+                    <input type="number" id="converter-input" placeholder="输入数值...">
+                    <select id="converter-from">
+                        <optgroup label="长度">
+                            <option value="m">米</option>
+                            <option value="km">千米</option>
+                            <option value="cm">厘米</option>
+                            <option value="mm">毫米</option>
+                            <option value="inch">英寸</option>
+                            <option value="ft">英尺</option>
+                            <option value="mi">英里</option>
+                        </optgroup>
+                        <optgroup label="重量">
+                            <option value="kg">千克</option>
+                            <option value="g">克</option>
+                            <option value="mg">毫克</option>
+                            <option value="lb">磅</option>
+                            <option value="oz">盎司</option>
+                        </optgroup>
+                        <optgroup label="温度">
+                            <option value="c">摄氏度</option>
+                            <option value="f">华氏度</option>
+                            <option value="k">开尔文</option>
+                        </optgroup>
+                    </select>
+                    <span>to</span>
+                    <select id="converter-to">
+                    </select>
+                </div>
+                <div class="converter-result">
+                    <input type="text" id="converter-output" readonly>
+                    <button id="converter-copy"><i class="fas fa-copy"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 遮罩层 -->
+    <div id="overlay" class="overlay"></div>
 
     <script src="sites.js"></script>
     <script src="script.js"></script>
