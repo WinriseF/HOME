@@ -106,13 +106,30 @@ document.addEventListener('DOMContentLoaded', function init() {
                 url = `https://picsum.photos/seed/${Date.now()}/1920/1080`;
                 break;
             case 'random':
-                // 随机动漫壁纸 - 直接使用 URL
-                url = CONFIG.backgroundSources.random;
-                break;
+                // 随机动漫壁纸 - 使用 fetch 解决跨域问题
+                fetch('https://t.alcy.cc/pc')
+                    .then(response => response.blob())
+                    .then(blob => {
+                        const url = URL.createObjectURL(blob);
+                        elements.bgElement.style.backgroundImage = `url('${url}')`;
+                    })
+                    .catch(() => {
+                        elements.bgElement.style.backgroundImage = `url('https://picsum.photos/1920/1080')`;
+                    });
+                return;
             case 'wallpaper':
-                // 风格化壁纸
-                url = `https://picsum.photos/seed/style/${Date.now()}/1920/1080`;
-                break;
+                // 风景壁纸 - 使用 fetch 解决跨域问题
+                fetch('https://t.alcy.cc/fj')
+                    .then(response => response.blob())
+                    .then(blob => {
+                        const url = URL.createObjectURL(blob);
+                        elements.bgElement.style.backgroundImage = `url('${url}')`;
+                    })
+                    .catch(() => {
+                        // 失败使用备用
+                        elements.bgElement.style.backgroundImage = `url('https://picsum.photos/seed/style/1920/1080')`;
+                    });
+                return;
             default:
                 url = CONFIG.backgroundSources.bing;
         }
