@@ -44,6 +44,16 @@ body {
     -webkit-user-select: none;
 }
 
+/* 隐藏滚动条 */
+::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
 #search-input {
     user-select: text;
     -webkit-user-select: text;
