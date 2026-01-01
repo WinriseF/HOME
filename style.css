@@ -38,6 +38,17 @@ body {
     min-height: 100vh;
 }
 
+/* 禁止选中文字 */
+body {
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+#search-input {
+    user-select: text;
+    -webkit-user-select: text;
+}
+
 /* ===== 3. 背景系统 ===== */
 .background-fixed {
     position: fixed;
