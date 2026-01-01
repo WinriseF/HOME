@@ -75,8 +75,6 @@ document.addEventListener('DOMContentLoaded', function init() {
         settingsBtn: document.getElementById('settings-btn'),
         settingsPanel: document.getElementById('settings-panel'),
         settingsClose: document.getElementById('settings-close'),
-        shortcutsBtn: document.getElementById('shortcuts-btn'),
-        shortcutsModal: document.getElementById('shortcuts-modal'),
         overlay: document.getElementById('overlay'),
         pomodoroBtn: document.getElementById('pomodoro-btn'),
         pomodoroModal: document.getElementById('pomodoro-modal'),
@@ -172,7 +170,7 @@ document.addEventListener('DOMContentLoaded', function init() {
         const month = date.getMonth() + 1;
         const day = date.getDate();
 
-        const offset = (Date.UTC(year, month - 1, day) - Date.UTC(1900, 0, 31)) / 86400000;
+        let offset = (Date.UTC(year, month - 1, day) - Date.UTC(1900, 0, 31)) / 86400000;
         let lunarYear = 1900;
         let temp = 0;
 
@@ -487,18 +485,14 @@ document.addEventListener('DOMContentLoaded', function init() {
         }
 
         // 备用方案：直接绑定事件，不依赖 elements 对象
-        document.getElementById('toolbox-button').addEventListener('click', () => {
+        document.getElementById('toolbox-button').addEventListener('click', (e) => {
+            e.stopPropagation();
             document.getElementById('drawer-panel').classList.add('open');
             document.getElementById('overlay').classList.add('show');
         });
-        document.getElementById('drawer-close').addEventListener('click', () => {
+        document.getElementById('drawer-close').addEventListener('click', (e) => {
+            e.stopPropagation();
             document.getElementById('drawer-panel').classList.remove('open');
-            document.getElementById('overlay').classList.remove('show');
-        });
-        document.getElementById('overlay').addEventListener('click', () => {
-            document.getElementById('drawer-panel').classList.remove('open');
-            document.getElementById('settings-panel').classList.remove('show');
-            document.getElementById('shortcuts-modal').classList.remove('show');
             document.getElementById('overlay').classList.remove('show');
         });
 
@@ -529,7 +523,8 @@ document.addEventListener('DOMContentLoaded', function init() {
         // 主题切换
         document.querySelectorAll('.theme-btn').forEach(btn => {
             if (btn.dataset.theme === state.theme) btn.classList.add('active');
-            btn.addEventListener('click', () => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
                 document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 applyTheme(btn.dataset.theme);
@@ -539,7 +534,8 @@ document.addEventListener('DOMContentLoaded', function init() {
         // 背景切换
         document.querySelectorAll('.bg-btn').forEach(btn => {
             if (btn.dataset.bg === state.background) btn.classList.add('active');
-            btn.addEventListener('click', () => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
                 document.querySelectorAll('.bg-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 applyBackground(btn.dataset.bg);
@@ -547,26 +543,30 @@ document.addEventListener('DOMContentLoaded', function init() {
         });
 
         function toggleSettings(show) {
-            elements.settingsPanel.classList.toggle('show', show);
-            elements.overlay.classList.toggle('show', show);
+            if (show) {
+                elements.settingsPanel.classList.add('show');
+                elements.overlay.classList.add('show');
+            } else {
+                elements.settingsPanel.classList.remove('show');
+                elements.overlay.classList.remove('show');
+            }
         }
 
-        elements.settingsBtn.addEventListener('click', () => toggleSettings(true));
-        elements.settingsClose.addEventListener('click', () => toggleSettings(false));
+        elements.settingsBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            elements.settingsPanel.classList.add('show');
+            elements.overlay.classList.add('show');
+        });
+        elements.settingsClose.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            elements.settingsPanel.classList.remove('show');
+            elements.overlay.classList.remove('show');
+        });
     }
 
-    // 11. 快捷键提示
-    function initShortcuts() {
-        function toggleShortcuts(show) {
-            elements.shortcutsModal.classList.toggle('show', show);
-            elements.overlay.classList.toggle('show', show);
-        }
-
-        elements.shortcutsBtn.addEventListener('click', () => toggleShortcuts(true));
-        elements.shortcutsModal.querySelector('.close-btn').addEventListener('click', () => toggleShortcuts(false));
-    }
-
-    // 12. 番茄钟
+    // 11. 番茄钟
     function initPomodoro() {
         function updateDisplay() {
             const m = Math.floor(state.pomodoro.time / 60);
@@ -616,7 +616,8 @@ document.addEventListener('DOMContentLoaded', function init() {
             resetTimer();
         }
 
-        elements.pomodoroBtn.addEventListener('click', () => {
+        elements.pomodoroBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
             elements.pomodoroModal.classList.add('show');
             elements.overlay.classList.add('show');
         });
@@ -629,12 +630,24 @@ document.addEventListener('DOMContentLoaded', function init() {
         });
 
         document.querySelectorAll('.timer-mode-btn').forEach(btn => {
-            btn.addEventListener('click', () => setMode(btn.dataset.mode));
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                setMode(btn.dataset.mode);
+            });
         });
 
-        elements.pomodoroStart.addEventListener('click', startTimer);
-        elements.pomodoroPause.addEventListener('click', pauseTimer);
-        elements.pomodoroReset.addEventListener('click', resetTimer);
+        elements.pomodoroStart.addEventListener('click', (e) => {
+            e.stopPropagation();
+            startTimer();
+        });
+        elements.pomodoroPause.addEventListener('click', (e) => {
+            e.stopPropagation();
+            pauseTimer();
+        });
+        elements.pomodoroReset.addEventListener('click', (e) => {
+            e.stopPropagation();
+            resetTimer();
+        });
 
         updateDisplay();
     }
@@ -675,7 +688,8 @@ document.addEventListener('DOMContentLoaded', function init() {
             document.execCommand('copy');
         }
 
-        elements.passwordBtn.addEventListener('click', () => {
+        elements.passwordBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
             elements.passwordModal.classList.add('show');
             elements.overlay.classList.add('show');
         });
@@ -708,7 +722,8 @@ document.addEventListener('DOMContentLoaded', function init() {
             result.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(text)}" alt="QR Code">`;
         }
 
-        elements.qrcodeBtn.addEventListener('click', () => {
+        elements.qrcodeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
             elements.qrcodeModal.classList.add('show');
             elements.overlay.classList.add('show');
         });
@@ -800,7 +815,8 @@ document.addEventListener('DOMContentLoaded', function init() {
             document.execCommand('copy');
         }
 
-        elements.converterBtn.addEventListener('click', () => {
+        elements.converterBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
             elements.converterModal.classList.add('show');
             elements.overlay.classList.add('show');
             updateToOptions();
@@ -885,60 +901,24 @@ document.addEventListener('DOMContentLoaded', function init() {
             }
         }
 
-        elements.exportData.addEventListener('click', exportData);
-        elements.importData.addEventListener('click', () => elements.importFile.click());
+        elements.exportData.addEventListener('click', (e) => {
+            e.stopPropagation();
+            exportData();
+        });
+        elements.importData.addEventListener('click', (e) => {
+            e.stopPropagation();
+            elements.importFile.click();
+        });
         elements.importFile.addEventListener('change', (e) => {
             if (e.target.files[0]) importData(e.target.files[0]);
         });
-        elements.resetData.addEventListener('click', resetData);
-    }
-
-    // 17. 全局快捷键
-    function initKeyboardShortcuts() {
-        let keyBuffer = '';
-        let lastKeyTime = 0;
-
-        document.addEventListener('keydown', (e) => {
-            // 聚焦搜索框
-            if (e.key === '/' && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
-                e.preventDefault();
-                elements.searchInput.focus();
-            }
-
-            // 快捷键提示
-            if (e.key === '?' && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
-                elements.shortcutsModal.classList.toggle('show');
-                elements.overlay.classList.toggle('show');
-            }
-
-            // ESC 关闭弹窗
-            if (e.key === 'Escape') {
-                elements.shortcutsModal.classList.remove('show');
-                elements.pomodoroModal.classList.remove('show');
-                elements.passwordModal.classList.remove('show');
-                elements.qrcodeModal.classList.remove('show');
-                elements.converterModal.classList.remove('show');
-                elements.settingsPanel.classList.remove('show');
-                elements.drawerPanel.classList.remove('show');
-                elements.overlay.classList.remove('show');
-            }
-
-            // 组合快捷键
-            const now = Date.now();
-            if (now - lastKeyTime < 500) {
-                keyBuffer += e.key.toLowerCase();
-            } else {
-                keyBuffer = e.key.toLowerCase();
-            }
-            lastKeyTime = now;
-
-            if (keyBuffer === 'gg') { window.open('https://github.com', '_blank'); keyBuffer = ''; }
-            if (keyBuffer === 'yt') { window.open('https://youtube.com', '_blank'); keyBuffer = ''; }
-            if (keyBuffer === 'bb') { window.open('https://bilibili.com', '_blank'); keyBuffer = ''; }
+        elements.resetData.addEventListener('click', (e) => {
+            e.stopPropagation();
+            resetData();
         });
     }
 
-    // 18. 滚动动画
+    // 17. 滚动动画
     function initScrollAnimation() {
         const animatedElements = document.querySelectorAll('.animatable');
 
@@ -996,93 +976,39 @@ document.addEventListener('DOMContentLoaded', function init() {
         initGitHub();
         initDrawer();
         initSettings();
-        initShortcuts();
         initPomodoro();
         initPassword();
         initQRCode();
         initConverter();
         initDataManagement();
-        initKeyboardShortcuts();
         initScrollAnimation();
     }
 
     start();
 });
 
-// ==================== 全局事件绑定 (在 DOM 加载后执行) ====================
-function bindGlobalEvents() {
-    // 设置按钮
-    const settingsBtn = document.getElementById('settings-btn');
-    const settingsPanel = document.getElementById('settings-panel');
-    const settingsClose = document.getElementById('settings-close');
+// 设置按钮直接绑定
+(function() {
+    var settingsBtn = document.getElementById('settings-btn');
+    var settingsPanel = document.getElementById('settings-panel');
+    var settingsClose = document.getElementById('settings-close');
+    var overlay = document.getElementById('overlay');
+
     if (settingsBtn && settingsPanel) {
-        settingsBtn.addEventListener('click', () => {
+        settingsBtn.onclick = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
             settingsPanel.classList.add('show');
-            document.getElementById('overlay').classList.add('show');
-        });
+            overlay.classList.add('show');
+            console.log('Settings opened');
+        };
     }
     if (settingsClose && settingsPanel) {
-        settingsClose.addEventListener('click', () => {
+        settingsClose.onclick = function(e) {
+            e.preventDefault();
+            e.stopPropagation();
             settingsPanel.classList.remove('show');
-            document.getElementById('overlay').classList.remove('show');
-        });
-    }
-
-    // 快捷键按钮
-    const shortcutsBtn = document.getElementById('shortcuts-btn');
-    const shortcutsModal = document.getElementById('shortcuts-modal');
-    if (shortcutsBtn && shortcutsModal) {
-        shortcutsBtn.addEventListener('click', () => {
-            shortcutsModal.classList.add('show');
-            document.getElementById('overlay').classList.add('show');
-        });
-    }
-
-    // 工具箱按钮
-    const toolboxButton = document.getElementById('toolbox-button');
-    const drawerPanel = document.getElementById('drawer-panel');
-    if (toolboxButton && drawerPanel) {
-        toolboxButton.addEventListener('click', () => {
-            drawerPanel.classList.add('open');
-            document.getElementById('overlay').classList.add('show');
-        });
-    }
-
-    // 抽屉关闭按钮
-    const drawerClose = document.getElementById('drawer-close');
-    if (drawerClose && drawerPanel) {
-        drawerClose.addEventListener('click', () => {
-            drawerPanel.classList.remove('open');
-            document.getElementById('overlay').classList.remove('show');
-        });
-    }
-
-    // 遮罩层点击关闭
-    const overlay = document.getElementById('overlay');
-    if (overlay) {
-        overlay.addEventListener('click', () => {
-            document.querySelectorAll('.modal, .settings-panel, .drawer-panel').forEach(el => {
-                el.classList.remove('show', 'open');
-            });
             overlay.classList.remove('show');
-        });
+        };
     }
-
-    // 弹窗关闭按钮
-    document.querySelectorAll('.modal .close-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            btn.closest('.modal').classList.remove('show');
-            const overlay = document.getElementById('overlay');
-            if (overlay && !document.querySelector('.modal.show, .settings-panel.show')) {
-                overlay.classList.remove('show');
-            }
-        });
-    });
-}
-
-// 页面加载完成后绑定全局事件
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', bindGlobalEvents);
-} else {
-    bindGlobalEvents();
-}
+})();

@@ -1352,6 +1352,7 @@ body {
     opacity: 0;
     visibility: hidden;
     transition: var(--transition-fast);
+    pointer-events: none;
 }
 
 .overlay.show { opacity: 1; visibility: visible; }
